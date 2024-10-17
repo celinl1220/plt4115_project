@@ -16,6 +16,9 @@ def is_music_note_start(char):
 def is_keyword(char):
 	return char in ['TimeSig', 'Tempo', 'KeySig', 'Tune', 'time', 'add', 'minorThird', 'minorFifth', 'repeat', 'play']
 
+def is_music_note_accidental(char):
+    return char in ['#', 'b', 'n']
+
 def is_music_note_duration(char):
     return char in ['w', 'h', 'q', 'e', 's']
 
@@ -64,13 +67,21 @@ def scan(input_program):
                 token_value = "" # reset token value and current state
                 current_state = "START"
 
-        elif current_state == "MUSIC_NOTE": # if current state is MUSIC_NOTE
-            if is_digit(char) or is_music_note_duration(char): # if char is a number of a music note duration(?) 
+        elif "MUSIC_NOTE" in current_state: # if current state has substring MUSIC_NOTE
+            if current_state == "MUSIC_NOTE" and is_music_note_accidental(char): # if only first letter of music note and char is an accidental
                 token_value += char # add char to token value
-            else: # if char is neither a number nor a music note duration (?)
+                current_state = "MUSIC_NOTE_ACC" # update current state to MUSIC_NOTE_ACC (music note with accidental)
+            elif (current_state == "MUSIC_NOTE" or current_state == "MUSIC_NOTE_ACC") and is_digit(char): # if current state is either MUSIC_NOTE or MUSIC_NOTE_ACC and char is a number
+                token_value += char # add char to token value
+                current_state = "MUSIC_NOTE_OCT"
+            elif is_music_note_duration(char): # if char is a music note duration
+                token_value += char # add char to token value
                 tokens.append(("MN", token_value)) # append token value to token list as MN
                 token_value = "" # reset token value and current state
                 current_state = "START"
+            else:
+                token_value += char
+                raise LexicalError(f"Invalid MusicNote: {token_value}")
                 
         elif current_state == "WHITESPACE": # if current state is WHITESPACE
             if not is_whitespace(char): # if char is not white space
