@@ -1,6 +1,7 @@
 # plt4115_project: Music Language
 
 ## Team Members: Celine Lee (cl4330) and Emma Li (eql2002)
+### Google Doc of progress: https://docs.google.com/document/d/1IC8xrgoRSnulggQK8NDYVmRXlHIW1tGeOw0TDdbFREA/edit
 
 ### Token Types:
 Keywords (KW): variable types (TimeSig, Tempo, KeySig, Tune), built-in methods (time(), add(), minorThird(), minorFifth()), loops (repeat)
