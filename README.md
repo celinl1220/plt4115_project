@@ -4,7 +4,7 @@
 ### Google Doc of progress: https://docs.google.com/document/d/1IC8xrgoRSnulggQK8NDYVmRXlHIW1tGeOw0TDdbFREA/edit
 
 ### Token Types:
-Keywords (KW): variable types (TimeSig, Tempo, KeySig, Tune), built-in methods (time(), add(), minorThird(), minorFifth()), loops (repeat)
+Keywords (KW): variable types (TimeSig, Tempo, KeySig, Tune), built-in methods (time(), add(), minorThird(), minorFifth()), loops (repeat), TimeSig keywords (c_major, g_major)
 
 Identifiers (ID): [ a-z ] [ a-z | A-Z | 0-9 ]* (at least one lowercase letter followed by any number of letters or digits)
 
@@ -19,7 +19,10 @@ Whitespace (WS): newlines (\n), tabs (\t)
 
 ### Grammar Rules:
 KW → ‘TimeSig’ | ‘Tempo’ | ‘KeySig’ | ‘Tune’ | ‘time’ | ‘add’ | ‘minorThird’ | ‘minorFifth’ | ‘repeat’ | 
-‘play’
+
+‘play’ | 'c_major' | 'c_minor' | 'd_major' | 'd_minor' | 'e_major' | 'e_minor' | 'f_major' | 'f_minor' | 
+
+'g_major' | 'g_minor' | 'a_major' | 'a_minor' | 'b_major' | 'b_minor'
 
 ID → [ a-z ] [ a-z | A-Z | 0-9 ]*
 
@@ -30,6 +33,7 @@ PN → [ | ] | ( | ) | = | : |
 MN → [ C | D | E | F | G | A | B | r ] [ # | b | n ]? [ 0-9 ]? [ w | h | q | e | s ]
 
 WS → ‘\t’ | ‘\n’ | ‘ ‘
+
 
 
 ### Example Programs and Outputs
