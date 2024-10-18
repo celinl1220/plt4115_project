@@ -43,10 +43,12 @@ def scan(input_program):
                 current_state = "MUSIC_NOTE"
             elif is_punctuator(char):  # If char is a punctuator
                 tokens.append(("PN", char))  # Append char to token list as PN
-            elif is_whitespace(char):  # If char is whitespace
-                continue  # Skip whitespace and continue to the next character
-            else:
-                raise LexicalError(f"Unrecognized character: {char}")
+            elif char == '\t': # If char is a tab character 
+tokens.append(("TAB", "\\t"))
+elif char in [' ', '\n']:
+	continue
+else:
+raise LexicalError(f"Unrecognized character: {char}")
 
         elif current_state == "ID_OR_KEYWORD":  # If current state is ID_OR_KEYWORD
             if is_letter(char) or is_digit(char):  # If char is letter or number
@@ -81,6 +83,11 @@ def scan(input_program):
                 current_state = "START"
             else:
                 raise LexicalError(f"Invalid MusicNote: {token_value}")
+        elif current_state = "WHITESPACE":
+            if is_whitespace(char):
+                token_value += char
+            else:
+                tokens.append(("WS", token_value)) # Append token value to token list as WS
 
     # After loop ends, process any remaining token value
     if token_value:
