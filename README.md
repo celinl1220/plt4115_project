@@ -14,7 +14,7 @@ Punctuators (PN)
 
 MusicNote (MN): [ C | D | E | F | G | A | B | r ] [ # | b | n ]? [ 0-9 ]? [ w | h | q | e | s ]
 
-Whitespace (WS): newlines (\n), tabs (\t)
+Whitespace (WS): tabs (\t)
 
 
 ### Grammar Rules:
@@ -32,7 +32,7 @@ PN → [ | ] | ( | ) | = | : |
 
 MN → [ C | D | E | F | G | A | B | r ] [ # | b | n ]? [ 0-9 ]? [ w | h | q | e | s ]
 
-WS → ‘\t’ | ‘\n’ | ‘ ‘
+WS → ‘\t’
 
 
 
