@@ -44,11 +44,11 @@ def scan(input_program):
             elif is_punctuator(char):  # If char is a punctuator
                 tokens.append(("PN", char))  # Append char to token list as PN
             elif char == '\t': # If char is a tab character 
-tokens.append(("TAB", "\\t"))
-elif char in [' ', '\n']:
-	continue
-else:
-raise LexicalError(f"Unrecognized character: {char}")
+                tokens.append(("TAB", "\\t"))
+            elif char in [' ', '\n']:
+                continue
+            else:
+                raise LexicalError(f"Unrecognized character: {char}")
 
         elif current_state == "ID_OR_KEYWORD":  # If current state is ID_OR_KEYWORD
             if is_letter(char) or is_digit(char):  # If char is letter or number

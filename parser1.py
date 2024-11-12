@@ -1,5 +1,19 @@
 import re
+class ASTNode:
+    def __init__(self, type, value=None):
+        self.type = type
+        self.value = value
+        self.children = []
 
+    def add_child(self, node):
+        self.children.append(node)
+
+    def __repr__(self, level=0):
+        ret = "\t" * level + f"{self.type}: {self.value}\n"
+        for child in self.children:
+            ret += child.__repr__(level + 1)
+        return ret
+    
 class Parser:
     def __init__(self, tokens): # input tokens is from Lexer
         self.tokens = tokens # list of tokens
