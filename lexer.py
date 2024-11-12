@@ -1,3 +1,5 @@
+import sys
+
 def is_letter(char): 
     return char.isalpha()
 
@@ -83,7 +85,7 @@ def scan(input_program):
                 current_state = "START"
             else:
                 raise LexicalError(f"Invalid MusicNote: {token_value}")
-        elif current_state = "WHITESPACE":
+        elif current_state == "WHITESPACE":
             if is_whitespace(char):
                 token_value += char
             else:
@@ -102,3 +104,21 @@ def scan(input_program):
             tokens.append(("MN", token_value))
 
     return tokens
+
+def main(program_file):
+    # Read the input program from the specified file
+    with open(program_file, 'r') as f:
+        program_text = f.read()
+
+    # Tokenize the program
+    tokens = scan(program_text)
+
+    # Print tokens to stdout in a format that can be read by the parser
+    print(tokens)
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: ./lexer.py <program_file>")
+        sys.exit(1)
+    
+    main(sys.argv[1])

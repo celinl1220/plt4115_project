@@ -1,4 +1,7 @@
 import re
+import sys
+from lexer import scan
+
 class ASTNode:
     def __init__(self, type, value=None):
         self.type = type
@@ -145,3 +148,26 @@ class Parser:
 
     def parse_MN(self):
         return self.tokens[self.pos] if self.tokens[self.pos][0] == "MN" else None
+    
+
+def main(token_file):
+    with open(token_file, 'r') as f:
+        tokens = eval(f.read())
+
+    # Initialize the parser with tokens and parse
+    parser = Parser(tokens)
+    ast = parser.parse()
+
+    # Print the AST if parsing was successful, or an error if not
+    if ast:
+        print("Generated AST:")
+        print(ast)
+    else:
+        print("Parsing failed due to syntax errors.")
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: ./parser.py <tokens_file>")
+        sys.exit(1)
+    
+    main(sys.argv[1])
