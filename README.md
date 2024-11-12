@@ -25,7 +25,7 @@ LOOP → ‘loop’ NM PN WS S
 ### Token Types:
 Keywords (KW): variable types (TimeSig, Tempo, KeySig, Tune), built-in methods (time(), add(), minorThird(), minorFifth()), loops (loop), TimeSig keywords (cmajor, gmajor)
 
-Identifiers (ID): [ a-z ] [ a-z | A-Z | 0-9 ]* (at least one lowercase letter followed by any number of letters or digits)
+Identifiers (ID): [ a-q s-z ] [ a-z | A-Z | 0-9 ]* (at least one lowercase letter followed by any number of letters or digits)
 
 Numbers (NM): integers
 
@@ -43,7 +43,7 @@ KW → ‘TimeSig’ | ‘Tempo’ | ‘KeySig’ | ‘Tune’ | ‘time’ | �
 
 'gmajor' | 'gminor' | 'amajor' | 'aminor' | 'bmajor' | 'bminor'
 
-ID → [ a-z ] [ a-z | A-Z | 0-9 ]*
+ID → [ a-q s-z ] [ a-z | A-Z | 0-9 ]*
 
 NM → [ 0-9 ]+
 
