@@ -19,11 +19,11 @@ FNC → KW(ARG)
 
 ARG → MN, ARG | NM, ARG | MN | NM | ε
 
-LOOP → ‘repeat’ NM PN WS S
+LOOP → ‘loop’ NM PN WS S
 
 
 ### Token Types:
-Keywords (KW): variable types (TimeSig, Tempo, KeySig, Tune), built-in methods (time(), add(), minorThird(), minorFifth()), loops (repeat), TimeSig keywords (cmajor, gmajor)
+Keywords (KW): variable types (TimeSig, Tempo, KeySig, Tune), built-in methods (time(), add(), minorThird(), minorFifth()), loops (loop), TimeSig keywords (cmajor, gmajor)
 
 Identifiers (ID): [ a-z ] [ a-z | A-Z | 0-9 ]* (at least one lowercase letter followed by any number of letters or digits)
 
@@ -37,7 +37,7 @@ Whitespace (WS): tabs (\t)
 
 
 ### Grammar Rules:
-KW → ‘TimeSig’ | ‘Tempo’ | ‘KeySig’ | ‘Tune’ | ‘time’ | ‘add’ | ‘minorThird’ | ‘minorFifth’ | ‘repeat’ | 
+KW → ‘TimeSig’ | ‘Tempo’ | ‘KeySig’ | ‘Tune’ | ‘time’ | ‘add’ | ‘minorThird’ | ‘minorFifth’ | ‘loop’ | 
 
 ‘play’ | 'cmajor' | 'cminor' | 'dmajor' | 'dminor' | 'emajor' | 'eminor' | 'fmajor' | 'fminor' | 
 
@@ -98,8 +98,8 @@ Tune melody = [[Aq, Aq, Gh]]
 <KW, Tune> <ID, melody> ‘=’ ‘[‘ ‘[‘ <MN, Aq> ‘,’ <MN, Aq> ‘,’ <MN, Gh> ‘]’ ‘]’
 Tune tune = [[Aq, rq, Bq, rq]]
 <KW, Tune> <ID, tune> ‘=’ ‘[‘ ‘[‘ <MN, Aq> ‘,’ <MN, rq> ‘,’ <MN, Bq> ‘,’ <MN, rq> ‘]’ ‘]’
-repeat 4:
-<KW, repeat> <NM, 4> ‘:’
+loop 4:
+<KW, loop> <NM, 4> ‘:’
 	melody.add(tune)
 	<WS, ‘\t’> <ID, melody> ’.’ <KW, add> ‘(‘ <ID, tune> ‘)’
 
