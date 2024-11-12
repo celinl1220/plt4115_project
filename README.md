@@ -3,6 +3,25 @@
 ## Team Members: Celine Lee (cl4330) and Emma Li (eql2002)
 ### Google Doc of progress: https://docs.google.com/document/d/1IC8xrgoRSnulggQK8NDYVmRXlHIW1tGeOw0TDdbFREA/edit
 
+### Context Free Grammar
+
+S → ASN S | FNC S | LOOP S | ε
+
+ASN → LHS = RHS
+
+LHS → KW | KW ID
+
+RHS → FNC | NM | KW | ID | [ BAR ]
+
+BAR → [MN, MN, MN, MN], BAR | [MN, MN, MN, MN]
+
+FNC → KW(ARG)
+
+ARG → MN, ARG | NM, ARG | MN | NM | ε
+
+LOOP → ‘repeat’ NM PN WS S
+
+
 ### Token Types:
 Keywords (KW): variable types (TimeSig, Tempo, KeySig, Tune), built-in methods (time(), add(), minorThird(), minorFifth()), loops (repeat), TimeSig keywords (c_major, g_major)
 
