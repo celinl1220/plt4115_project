@@ -23,7 +23,7 @@ LOOP → ‘repeat’ NM PN WS S
 
 
 ### Token Types:
-Keywords (KW): variable types (TimeSig, Tempo, KeySig, Tune), built-in methods (time(), add(), minorThird(), minorFifth()), loops (repeat), TimeSig keywords (c_major, g_major)
+Keywords (KW): variable types (TimeSig, Tempo, KeySig, Tune), built-in methods (time(), add(), minorThird(), minorFifth()), loops (repeat), TimeSig keywords (cmajor, gmajor)
 
 Identifiers (ID): [ a-z ] [ a-z | A-Z | 0-9 ]* (at least one lowercase letter followed by any number of letters or digits)
 
@@ -39,9 +39,9 @@ Whitespace (WS): tabs (\t)
 ### Grammar Rules:
 KW → ‘TimeSig’ | ‘Tempo’ | ‘KeySig’ | ‘Tune’ | ‘time’ | ‘add’ | ‘minorThird’ | ‘minorFifth’ | ‘repeat’ | 
 
-‘play’ | 'c_major' | 'c_minor' | 'd_major' | 'd_minor' | 'e_major' | 'e_minor' | 'f_major' | 'f_minor' | 
+‘play’ | 'cmajor' | 'cminor' | 'dmajor' | 'dminor' | 'emajor' | 'eminor' | 'fmajor' | 'fminor' | 
 
-'g_major' | 'g_minor' | 'a_major' | 'a_minor' | 'b_major' | 'b_minor'
+'gmajor' | 'gminor' | 'amajor' | 'aminor' | 'bmajor' | 'bminor'
 
 ID → [ a-z ] [ a-z | A-Z | 0-9 ]*
 
@@ -66,8 +66,8 @@ TimeSig ts = time(4, 4)
 <KW, TimeSig> <ID, ts> ‘=’ <KW, time> ‘(‘ <NM, 4> ‘,’ <NM, 4> ‘)’
 Tempo t = 144
 <KW, Tempo> <ID, t> ‘=’ <NM, 144>
-KeySig ks = c_major
-<KW, KeySig> <ID, ks> ‘=’ <KW, c_major>
+KeySig ks = cmajor
+<KW, KeySig> <ID, ks> ‘=’ <KW, cmajor>
 Tune melody = [[C4q, Cq, Gq, Gq], [Aq, Aq, Gh], [Fq, Fq, Eq, Eq], [Dq, Dq, Ch]]
 <KW, Tune> <ID, melody> ‘=’ ‘[‘ ‘[‘ <MN, C4q> ‘,’ <MN, Cq> ‘,’ <MN, Gq> ‘,’ <MN, Gq> ‘]’ ‘,’ ‘[‘ <MN, Aq> ‘,’ <MN, Aq> ‘,’ <MN, Gh> ‘]’ ‘,’  ‘[‘ <MN, Fq> ‘,’ <MN, Fq> ‘,’ <MN, Eq> ‘,’ <MN, Eq> ‘]’ ‘,’ ‘[‘ <MN, Dq> ‘,’ <MN, Dq> ‘,’ <MN, Ch> ‘]’ ‘]’
 play(melody, ts, ks, t)
@@ -78,8 +78,8 @@ TimeSig ts = time(4, 4)
 <KW, TimeSig> <ID, ts> ‘=’ <KW, time> ‘(‘ <NM, 4> ‘,’ <NM, 4> ‘)’
 Tempo t = 144
 <KW, Tempo> <ID, t> ‘=’ <NM, 144>
-KeySig ks = c_major
-<KW, KeySig> <ID, ks> ‘=’ <KW, c_major>
+KeySig ks = cmajor
+<KW, KeySig> <ID, ks> ‘=’ <KW, cmajor>
 Tune melody = [[Aq, Aq, Gh]]
 <KW, Tune> <ID, melody> ‘=’ ‘[‘ ‘[‘ <MN, Aq> ‘,’ <MN, Aq> ‘,’ <MN, Gh> ‘]’ ‘]’
 Tune harmony = minorThird(melody)
@@ -92,8 +92,8 @@ TimeSig ts = time(4, 4)
 <KW, TimeSig> <ID, ts> ‘=’ <KW, time> ‘(‘ <NM, 4> ‘,’ <NM, 4> ‘)’
 Tempo t = 144
 <KW, Tempo> <ID, t> ‘=’ <NM, 144>
-KeySig ks = c_major
-<KW, KeySig> <ID, ks> ‘=’ <KW, c_major>
+KeySig ks = cmajor
+<KW, KeySig> <ID, ks> ‘=’ <KW, cmajor>
 Tune melody = [[Aq, Aq, Gh]]
 <KW, Tune> <ID, melody> ‘=’ ‘[‘ ‘[‘ <MN, Aq> ‘,’ <MN, Aq> ‘,’ <MN, Gh> ‘]’ ‘]’
 Tune tune = [[Aq, rq, Bq, rq]]
@@ -106,8 +106,8 @@ repeat 4:
 (4) ERROR: Missing parameter in built-in function
 Tempo t = 144
 <KW, Tempo> <ID, t> ‘=’ <NM, 144>
-KeySig ks = c_major
-<KW, KeySig> <ID, ks> ‘=’ <KW, c_major>
+KeySig ks = cmajor
+<KW, KeySig> <ID, ks> ‘=’ <KW, cmajor>
 Tune melody = [[C4q, Cq, Gq, Gq]]
 <KW, Tune> <ID, melody> ‘=’ ‘[‘ ‘[‘ <MN, C4q> ‘,’ <MN, Cq> ‘,’ <MN, Gq> ‘,’ <MN, Gq> ‘]’ ‘]’
 play(melody, ks, t)
