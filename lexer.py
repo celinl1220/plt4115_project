@@ -16,7 +16,7 @@ def is_music_note_start(char):
 	return char in ['C', 'D', 'E', 'F', 'G', 'A', 'B', 'r']
 
 def is_keyword(char):
-	return char in ['TimeSig', 'Tempo', 'KeySig', 'Tune', 'time', 'add', 'minorThird', 'minorFifth', 'repeat', 'play', 'c_major', 'c_minor', 'd_major', 'd_minor', 'e_major', 'e_minor', 'f_major', 'f_minor', 'g_major', 'g_minor', 'a_major', 'a_minor', 'b_major', 'b_minor']
+	return char in ['TimeSig', 'Tempo', 'KeySig', 'Tune', 'time', 'add', 'minorThird', 'minorFifth', 'repeat', 'play', 'cmajor', 'cminor', 'dmajor', 'dminor', 'emajor', 'eminor', 'fmajor', 'fminor', 'gmajor', 'gminor', 'amajor', 'aminor', 'bmajor', 'bminor']
 
 def is_music_note_accidental(char):
     return char in ['#', 'b', 'n']
