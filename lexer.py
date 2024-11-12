@@ -34,15 +34,15 @@ def scan(input_program):
 
     for char in input_program:
         if current_state == "START":  # If at START state (starting new token)
-            if is_letter(char):  # If char is a letter
+            if is_music_note_start(char):
+                token_value += char
+                current_state = "MUSIC_NOTE"
+            elif is_letter(char):  # If char is a letter
                 token_value += char  # Add char to token value
                 current_state = "ID_OR_KEYWORD"  # Update current state to ID_OR_KEYWORD
             elif is_digit(char):  # If char is a number
                 token_value += char  # Add char to token value
                 current_state = "NUMBER"  # Update current state to NUMBER
-            elif is_music_note_start(char):
-                token_value += char
-                current_state = "MUSIC_NOTE"
             elif is_punctuator(char):  # If char is a punctuator
                 tokens.append(("PN", char))  # Append char to token list as PN
             elif char == '\t': # If char is a tab character 
