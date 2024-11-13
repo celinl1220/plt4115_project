@@ -19,10 +19,9 @@ BAR → [MN, MN, MN, MN], BAR | [MN, MN, MN, MN]
 
 FNC → KW(ARG)
 
-ARG → MN, ARG | NM, ARG | MN | NM | ε
+ARG → MN ARG | NM ARG | ID ARG | ID | MN | NM | ε
 
 LOOP → ‘loop’ NM PN WS S
-
 
 ### Token Types:
 Keywords (KW): variable types (TimeSig, Tempo, KeySig, Tune), built-in methods (time(), add(), minorThird(), minorFifth()), loops (loop), TimeSig keywords (cmajor, gmajor)
@@ -39,22 +38,18 @@ Whitespace (WS): tabs (\t)
 
 
 ### Grammar Rules:
-KW → ‘TimeSig’ | ‘Tempo’ | ‘KeySig’ | ‘Tune’ | ‘time’ | ‘add’ | ‘minorThird’ | ‘minorFifth’ | ‘loop’ | 
 
-‘play’ | 'cmajor' | 'cminor' | 'dmajor' | 'dminor' | 'emajor' | 'eminor' | 'fmajor' | 'fminor' | 
-
-'gmajor' | 'gminor' | 'amajor' | 'aminor' | 'bmajor' | 'bminor'
+KW → ‘TimeSig’ | ‘Tempo’ | ‘KeySig’ | ‘Tune’ | ‘time’ | ‘add’ | ‘minorThird’ | ‘minorFifth’ | ‘play’ | 'cmajor' | 'cminor' | 'dmajor' | 'dminor' | 'emajor' | 'eminor' | 'fmajor' | 'fminor' | 'gmajor' | 'gminor' | 'amajor' | 'aminor' | 'bmajor' | 'bminor'
 
 ID → [ a-q s-z ] [ a-z | A-Z | 0-9 ]*
 
 NM → [ 0-9 ]+
 
-PN → [ | ] | ( | ) | = | : | 
+PN → [ | ] | ( | ) | = | : 
 
 MN → [ C | D | E | F | G | A | B | r ] [ # | b | n ]? [ 0-9 ]? [ w | h | q | e | s ]
 
 WS → ‘\t’
-
 
 
 ### Example Programs and Outputs
