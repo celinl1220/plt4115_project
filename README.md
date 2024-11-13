@@ -120,3 +120,246 @@ Tune melody = [[C4q, 2q, Gq, Gq]]
 <KW, Tune> <ID, melody> ‘=’ ‘[‘ ‘[‘ <MN, C4q> ‘,’ <MN, 2q> ‘,’ <MN, Gq> ‘,’ <MN, Gq> ‘]’ ‘]’
 ERROR: Invalid MusicNote ‘2q’
 ```
+Below are example programs and their corresponding token outputs as processed by the parser:
+```
+(1) Playing a Melody:
+TimeSig ts = time(4, 4)
+<KW, TimeSig> <ID, ts> ‘=’ <KW, time> ‘(‘ <NM, 4> ‘,’ <NM, 4> ‘)’
+Tempo t = 144
+<KW, Tempo> <ID, t> ‘=’ <NM, 144>
+KeySig ks = cmajor
+<KW, KeySig> <ID, ks> ‘=’ <KW, cmajor>
+Tune melody = [[C4q, Cq, Gq, Gq]]
+<KW, Tune> <ID, melody> ‘=’ ‘[‘ ‘[‘ <MN, C4q> ‘,’ <MN, Cq> ‘,’ <MN, Gq> ‘,’ <MN, Gq> ‘]’ ‘]’
+play(melody, ts, ks, t)
+<KW, play> ‘(‘ <ID, melody> ‘,’ <ID, ts> ‘,’ <ID, ks> ‘,’ <ID, t> ‘)’
+
+Parsed AST:
+Program
+    Assignment
+        LHS(TimeSig)
+            ID(ts)
+        FunctionCall(time)
+            Argument(4)
+            Argument(4)
+    Assignment
+        LHS(Tempo)
+            ID(t)
+        NM(144)
+    Assignment
+        LHS(KeySig)
+            ID(ks)
+        KW(cmajor)
+    Assignment
+        LHS(Tune)
+            ID(melody)
+        List
+            Bar
+                MN(C4q)
+                MN(Cq)
+                MN(Gq)
+                MN(Gq)
+    FunctionCall(play)
+        Argument(melody)
+        Argument(ts)
+        Argument(ks)
+        Argument(t)
+
+(2) Call Function for Harmony
+TimeSig ts = time(4, 4)
+<KW, TimeSig> <ID, ts> ‘=’ <KW, time> ‘(‘ <NM, 4> ‘,’ <NM, 4> ‘)’
+Tempo t = 144
+<KW, Tempo> <ID, t> ‘=’ <NM, 144>
+KeySig ks = cmajor
+<KW, KeySig> <ID, ks> ‘=’ <KW, cmajor>
+Tune melody = [[Aq, Aq, Gq, Gq]]
+<KW, Tune> <ID, melody> ‘=’ ‘[‘ ‘[‘ <MN, Aq> ‘,’ <MN, Aq> ‘,’ <MN, Gq> ‘,’ <MN, Gq> ‘]’ ‘]’
+Tune harmony = minorThird(melody)
+<KW, Tune> <ID, harmony> ‘=’ <KW, minorThird> ‘(‘ <ID, melody> ‘)’
+play(harmony, ts, ks, t)
+<KW, play> ‘(‘ <ID, harmony> ‘,’ <ID, ts> ‘,’ <ID, ks> ‘,’ <ID, t> ‘)’
+
+Program
+    Assignment
+        LHS(TimeSig)
+            ID(ts)
+        FunctionCall(time)
+            Argument(4)
+            Argument(4)
+    Assignment
+        LHS(Tempo)
+            ID(t)
+        NM(144)
+    Assignment
+        LHS(KeySig)
+            ID(ks)
+        KW(cmajor)
+    Assignment
+        LHS(Tune)
+            ID(melody)
+        List
+            Bar
+                MN(Aq)
+                MN(Aq)
+                MN(Gq)
+                MN(Gq)
+    Assignment
+        LHS(Tune)
+            ID(harmony)
+        FunctionCall(minorThird)
+            Argument(melody)
+    FunctionCall(play)
+        Argument(harmony)
+        Argument(ts)
+        Argument(ks)
+        Argument(t)
+
+(3) Loops
+TimeSig ts = time(4, 4)
+<KW, TimeSig> <ID, ts> ‘=’ <KW, time> ‘(‘ <NM, 4> ‘,’ <NM, 4> ‘)’
+Tempo t = 144
+<KW, Tempo> <ID, t> ‘=’ <NM, 144>
+KeySig ks = cmajor
+<KW, KeySig> <ID, ks> ‘=’ <KW, cmajor>
+Tune melody = [[Aq, Aq, Gq, Gq]]
+<KW, Tune> <ID, melody> ‘=’ ‘[‘ ‘[‘ <MN, Aq> ‘,’ <MN, Aq> ‘,’ <MN, Gq> ‘,’ <MN, Gq> ‘]’ ‘]’
+Tune tune = [[Aq, rq, Bq, rq]]
+<KW, Tune> <ID, tune> ‘=’ ‘[‘ ‘[‘ <MN, Aq> ‘,’ <MN, rq> ‘,’ <MN, Bq> ‘,’ <MN, rq> ‘]’ ‘]’
+loop 4:
+<KW, loop> <NM, 4> ‘:’
+	add(melody, tune)
+	<KW, add> ‘(‘ <ID, melody> ‘,’ <ID, tune> ‘)’
+
+Program
+    Assignment
+            LHS(TimeSig)
+                ID(ts)
+        FunctionCall(time)
+            Argument(4)
+            Argument(4)
+    Assignment
+        LHS(Tempo)
+            ID(t)
+        NM(144)
+    Assignment
+        LHS(KeySig)
+            ID(ks)
+        KW(cmajor)
+    Assignment
+        LHS(Tune)
+            ID(melody)
+        List
+            Bar
+                MusicNote(Aq)
+                MusicNote(Aq)
+                MusicNote(Gq)
+                MusicNote(Gq)
+    Assignment
+        LHS(Tune)
+            ID(harmony)
+        List
+            Bar
+                MusicNote(Aq)
+                MusicNote(rq)
+                MusicNote(Bq)
+                MusicNote(rq)
+    Loop(4)
+        Program
+            FunctionCall(add)
+                Argument(melody)
+                Argument(tune)
+
+(4) Loops with Multiple Lines
+Tempo t = 144
+<KW, Tempo> <ID, t> ‘=’ <NM, 144>
+KeySig ks = cmajor
+<KW, KeySig> <ID, ks> ‘=’ <KW, cmajor>
+Tune melody = [[C4q, Cq, Gq, Gq]]
+<KW, Tune> <ID, melody> ‘=’ ‘[‘ ‘[‘ <MN, C4q> ‘,’ <MN, Cq> ‘,’ <MN, Gq> ‘,’ <MN, Gq> ‘]’ ‘]’
+Tune tune1 = [[A4q, Aq, Gq, Gq]]
+<KW, Tune> <ID, tune1> ‘=’ ‘[‘ ‘[‘ <MN, A4q> ‘,’ <MN, Aq> ‘,’ <MN, Gq> ‘,’ <MN, Gq> ‘]’ ‘]’
+Tune tune2 = [[B4q, Bq, Gq, Gq]]
+<KW, Tune> <ID, tune1> ‘=’ ‘[‘ ‘[‘ <MN, B4q> ‘,’ <MN, Bq> ‘,’ <MN, Gq> ‘,’ <MN, Gq> ‘]’ ‘]’
+loop 2:
+<KW, loop> <NM, 2> ‘:’
+	add(melody, tune1)
+	<KW, add> ‘(‘ <ID, melody> ‘,’ <ID, tune1> ‘)’
+            add(melody, tune2)
+	<KW, add> ‘(‘ <ID, melody> ‘,’ <ID, tune2> ‘)’
+
+Program
+    Assignment
+        LHS(Tempo)
+            ID(t)
+        NM(144)
+    Assignment
+        LHS(KeySig)
+            ID(ks)
+        KW(cmajor)
+    Assignment
+        LHS(Tune)
+            ID(melody)
+        List
+            Bar
+                MN(C4q)
+                MN(Cq)
+                MN(Gq)
+                MN(Gq)
+    Assignment
+        LHS(Tune)
+            ID(tune1)
+        List
+            Bar
+                MN(A4q)
+                MN(Aq)
+                MN(Gq)
+                MN(Gq)
+    Assignment
+        LHS(Tune)
+            ID(tune2)
+        List
+            Bar
+                MN(B4q)
+                MN(Bq)
+                MN(Gq)
+                MN(Gq)
+    Loop(2)
+        Program
+            FunctionCall(add)
+                Argument(melody)
+                Argument(tune1)
+        Program
+            FunctionCall(add)
+                Argument(melody)
+                Argument(tune2)
+
+(5) Multiple Bars
+Tune melody = [[C4q, 2q, Gq, Gq], [Aq, Aq, Gq, Gq], [Fq, Fq, Eq, Eq], [Dq, Dq, Cq, Cq]]
+<KW, Tune> <ID, melody> ‘=’ ‘[‘ ‘[‘ <MN, C4q> ‘,’ <MN, 2q> ‘,’ <MN, Gq> ‘,’ <MN, Gq> ‘]’ ‘,’ ‘[‘ <MN, Aq> ‘,’ <MN, Aq> ‘,’ <MN, Gq> ‘,’ <MN, Gq> ‘]’ ‘,’  ‘[‘ <MN, Fq> ‘,’ <MN, Fq> ‘,’ <MN, Eq> ‘,’ <MN, Eq> ‘]’ ‘,’ ‘[‘ <MN, Dq> ‘,’ <MN, Dq> ‘,’ <MN, Cq> ‘,’ <MN, Cq> ‘]’ ‘]’
+
+Program
+    Assignment
+        LHS(Tune)
+            ID(melody)
+        List
+            Bar
+                MN(C4q)
+                MN(2q)
+                MN(Gq)
+                MN(Gq)
+            Bar
+                MN(Aq)
+                MN(Aq)
+                MN(Gq)
+                MN(Gq)
+            Bar
+                MN(Fq)
+                MN(Fq)
+                MN(Eq)
+                MN(Eq)
+            Bar
+                MN(Dq)
+                MN(Dq)
+                MN(Cq)
+                MN(Cq)
+```
