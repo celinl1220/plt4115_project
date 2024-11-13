@@ -114,9 +114,9 @@ class Parser:
         return None
     
     def parse_ARG(self):
-        # ARG → MN, ARG | NM, ARG | MN | NM | ε
+        # ARG → MN, ARG | NM, ARG | ID , ARG | MN | NM | ID | ε
         arg_node = ASTNode("Arguments")
-        first_arg = self.parse_MN() or self.parse_NM()
+        first_arg = self.parse_MN() or self.parse_NM() or self.parse_ID()
         if first_arg:
             arg_node.add_child(ASTNode("Argument", first_arg[1]))
             while self.match(r','):
@@ -130,11 +130,11 @@ class Parser:
     
     def parse_LOOP(self):
         # LOOP → ‘repeat’ NM PN WS S
-        if self.match(r'repeat'):
-            loop_node = ASTNode("Loop", "repeat")
-            if nm := self.parse_NM():
-                loop_node.add_child(ASTNode("NM", nm[1]))
-                return loop_node
+        if self.match(r'loop') and nm := self.parse_NM():
+            loop_node = ASTNode("Loop", nm[1])
+            while self.match(r'\t'):
+                loop_node.add_child(self.parse_S())
+            return loop_node
         return None
 
     def parse_KW(self):

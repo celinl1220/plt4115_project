@@ -61,7 +61,6 @@ WS → ‘\t’
 
 Below are example programs and their corresponding token outputs as processed by the lexer:
 
-
 ```
 (1) Creating a melody:
 TimeSig ts = time(4, 4)
