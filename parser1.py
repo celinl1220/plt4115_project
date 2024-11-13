@@ -120,7 +120,7 @@ class Parser:
         if first_arg:
             arg_node.add_child(ASTNode("Argument", first_arg[1]))
             while self.match(r','):
-                next_arg = self.parse_MN() or self.parse_NM()
+                next_arg = self.parse_MN() or self.parse_NM() or self.parse_ID()
                 if next_arg:
                     arg_node.add_child(ASTNode("Argument", next_arg[1]))
                 else:
