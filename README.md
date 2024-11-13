@@ -1,6 +1,8 @@
 # plt4115_project: Music Language
 
 ## Team Members: Celine Lee (cl4330) and Emma Li (eql2002)
+
+### Demo of lexer and parser: https://youtu.be/ve0fZTbzl-4
 ### Google Doc of progress: https://docs.google.com/document/d/1IC8xrgoRSnulggQK8NDYVmRXlHIW1tGeOw0TDdbFREA/edit
 
 ### Context Free Grammar
