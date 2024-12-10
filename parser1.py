@@ -46,6 +46,7 @@ class Parser:
     
     def parse_ASN(self):
         # ASN → LHS = RHS
+        temp_pos = self.pos
         lhs = self.parse_LHS()
         if lhs and self.match(r'='):
             rhs = self.parse_RHS()
@@ -54,100 +55,127 @@ class Parser:
                 node.add_child(lhs)
                 node.add_child(rhs)
                 return node
+        self.pos = temp_pos
         return None
     
     def parse_LHS(self):
         # LHS → KW | KW ID
         if kw := self.parse_KW():
             lhs_node = ASTNode("LHS", kw[1])
+            self.pos += 1
             if id_node := self.parse_ID():
                 lhs_node.add_child(ASTNode("ID", id_node[1]))
+                self.pos += 1
             return lhs_node
         return None
     
     def parse_RHS(self):
         # RHS → FNC | NM | KW | ID | [ BAR ]
         if fnc := self.parse_FNC():
+            # self.pos += 1
             return fnc
-        if nm := self.parse_NM():
+        elif nm := self.parse_NM():
+            self.pos += 1
             return ASTNode("NM", nm[1])
-        if kw := self.parse_KW():
+        elif kw := self.parse_KW():
+            self.pos += 1
             return ASTNode("KW", kw[1])
-        if id_node := self.parse_ID():
+        elif id_node := self.parse_ID():
+            self.pos += 1
             return ASTNode("ID", id_node[1])
-        if self.match(r'\['):
+        elif self.match(r'\['):
             list_node = ASTNode("List")
-            while True:
-                bar = self.parse_BAR()
+            first_list = True
+            while not self.match(r'\]'):
+                bar = self.parse_BAR(first_list)
                 if bar:
+                    first_list = False
                     list_node.add_child(bar)
-                if not self.match(r','):
-                    break
-            if self.match(r'\]'):
-                return list_node
+            return list_node
         return None
     
-    def parse_BAR(self):
+    def parse_BAR(self, first_list):
         # BAR → [MN, MN, MN, MN], BAR | [MN, MN, MN, MN]
-        if self.match(r'\['):
-            bar_node = ASTNode("Bar")
-            for _ in range(4):  # Expect exactly 4 music notes in a bar
-                mn = self.parse_MN()
-                if mn:
-                    bar_node.add_child(ASTNode("MN", mn[1]))
-                if not self.match(r',') and len(bar_node.children) < 4:
-                    return None
-            if self.match(r'\]'):
-                return bar_node
+        if first_list or (not first_list and self.match(r'\,')):
+            if self.match(r'\['):
+                bar_node = ASTNode("Bar")
+                for i in range(4):  # Expect exactly 4 music notes in a bar
+                    mn = self.parse_MN()
+                    if mn:
+                        bar_node.add_child(ASTNode("MN", mn[1]))
+                        self.pos += 1
+                    if not self.match(r',') and len(bar_node.children) < 4:
+                        return None
+                if self.match(r'\]'):
+                    return bar_node
         return None
     
     def parse_FNC(self):
         # FNC → KW ( ARG )
         if kw := self.parse_KW():
             fnc_node = ASTNode("FunctionCall", kw[1])
+            self.pos += 1
             if self.match(r'\('):
-                arg_node = self.parse_ARG()
-                if arg_node:
-                    fnc_node.add_child(arg_node)
-                if self.match(r'\)'):
-                    return fnc_node
+                while not self.match(r'\)'):
+                    arg_node = self.parse_ARG()
+                    if arg_node:
+                        fnc_node.add_child(arg_node)
+                        self.pos += 1
+                return fnc_node
+            else:
+                self.pos -= 1
         return None
     
     def parse_ARG(self):
         # ARG → MN, ARG | NM, ARG | ID , ARG | MN | NM | ID | ε
         arg_node = ASTNode("Arguments")
-        first_arg = self.parse_MN() or self.parse_NM() or self.parse_ID()
-        if first_arg:
-            arg_node.add_child(ASTNode("Argument", first_arg[1]))
-            while self.match(r','):
-                next_arg = self.parse_MN() or self.parse_NM() or self.parse_ID()
-                if next_arg:
-                    arg_node.add_child(ASTNode("Argument", next_arg[1]))
-                else:
-                    return None
+        arg = self.parse_MN() or self.parse_NM() or self.parse_ID()
+        if arg:
+            arg_node.add_child(ASTNode("Argument", arg[1]))
             return arg_node
         return None
     
     def parse_LOOP(self):
         # LOOP → ‘repeat’ NM PN WS S
-        if self.match(r'loop') and nm := self.parse_NM():
-            loop_node = ASTNode("Loop", nm[1])
-            while self.match(r'\t'):
-                loop_node.add_child(self.parse_S())
-            return loop_node
+        if self.match(r'loop'):
+            nm = self.parse_NM()
+            if nm is not None:
+                loop_node = ASTNode("Loop", nm[1])
+                self.pos += 1
+                # print(self.tokens[self.pos])
+                while self.pos < len(self.tokens) and self.tokens[self.pos][0] == "TAB":
+                    self.pos += 1
+                    statement = self.parse_ASN() or self.parse_FNC() or self.parse_LOOP()
+                    if statement:
+                        loop_node.add_child(statement)
+                    else:
+                        break
+                return loop_node
         return None
 
     def parse_KW(self):
-        return self.tokens[self.pos] if self.tokens[self.pos][0] == "KW" else None
+        if self.tokens[self.pos][0] == "KW":
+            toReturn = self.tokens[self.pos]
+            return toReturn
+        return None
 
     def parse_ID(self):
-        return self.tokens[self.pos] if self.tokens[self.pos][0] == "ID" else None
+        if self.tokens[self.pos][0] == "ID":
+            toReturn = self.tokens[self.pos]
+            return toReturn
+        return None
 
     def parse_NM(self):
-        return self.tokens[self.pos] if self.tokens[self.pos][0] == "NM" else None
+        if self.tokens[self.pos][0] == "NM":
+            toReturn = self.tokens[self.pos]
+            return toReturn
+        return None
 
     def parse_MN(self):
-        return self.tokens[self.pos] if self.tokens[self.pos][0] == "MN" else None
+        if self.tokens[self.pos][0] == "MN":
+            toReturn = self.tokens[self.pos]
+            return toReturn
+        return None
     
 
 def main(token_file):
