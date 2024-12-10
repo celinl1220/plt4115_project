@@ -363,13 +363,12 @@ Program
 ```
 
 Below are example programs and their corresponding code gen outputs as processed by the codegen.py:
-```
 (1) Playing a Melody:
 TimeSig ts = time ( 4, 4 )
 Tempo t = 144
 KeySig ks = cmajor
 Tune melody = [[C4q, Cq, Gq, Gq]]
-play (melody, ts, ks, t )
+play ( melody, ts, ks, t )
 
 Javascript (tone):
 
@@ -409,7 +408,6 @@ for (var i = 0; i < melody.length; i++) {
         synth.triggerAttackRelease(melody_i[j], melody_durations_i[j]+"n");
     }
 }
-
 
 
 (2) Call Function for Harmony
@@ -479,13 +477,13 @@ play(harmony, timeSig, keySig, tempo);
 
 
 (3) Loops
-TimeSig ts = time(4, 4)
+TimeSig ts = time( 4, 4 )
 Tempo t = 144
 KeySig ks = cmajor
 Tune melody = [[Aq, Aq, Gq, Gq]]
 Tune tune = [[Aq, rq, Bq, rq]]
 loop 4:
-	add(melody, tune)
+	add( melody, tune )
 
 Program
     Assignment
@@ -594,8 +592,8 @@ Tune melody = [[C4q, Cq, Gq, Gq]]
 Tune tune1 = [[A4q, Aq, Gq, Gq]]
 Tune tune2 = [[B4q, Bq, Gq, Gq]]
 loop 2:
-	add(melody, tune1)
-            add(melody, tune2)
+	add( melody, tune1 )
+            add( melody, tune2 )
 
 Program
     Assignment
@@ -772,6 +770,4 @@ async function playBars(melody) {
 
 // Play the melody
 playBars(melody);
-
-
 '''
