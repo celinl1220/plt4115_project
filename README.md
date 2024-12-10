@@ -709,6 +709,7 @@ play(melody);
 
 
 
+
 (5) Multiple Bars
 Tune melody = [[C4q, 2q, Gq, Gq], [Aq, Aq, Gq, Gq], [Fq, Fq, Eq, Eq], [Dq, Dq, Cq, Cq]]
 
@@ -770,4 +771,3 @@ async function playBars(melody) {
 
 // Play the melody
 playBars(melody);
-'''
