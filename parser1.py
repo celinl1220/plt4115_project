@@ -188,7 +188,6 @@ def main(token_file):
 
     # Print the AST if parsing was successful, or an error if not
     if ast:
-        print("Generated AST:")
         print(ast)
     else:
         print("Parsing failed due to syntax errors.")

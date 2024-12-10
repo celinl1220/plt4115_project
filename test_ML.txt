@@ -1,0 +1,5 @@
+TimeSig ts = time ( 4, 4 )
+Tempo t = 144
+KeySig ks = cmajor
+Tune melody = [[C4q, Cq, Gq, Gq]]
+play ( melody, ts, ks, t )

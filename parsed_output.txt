@@ -1,0 +1,36 @@
+Program: None
+	Assignment: None
+		LHS: TimeSig
+			ID: ts
+		FunctionCall: time
+			Arguments: None
+				Argument: 4
+			Arguments: None
+				Argument: 4
+	Assignment: None
+		LHS: Tempo
+			ID: t
+		NM: 144
+	Assignment: None
+		LHS: KeySig
+			ID: ks
+		KW: cmajor
+	Assignment: None
+		LHS: Tune
+			ID: melody
+		List: None
+			Bar: None
+				MN: C4q
+				MN: Cq
+				MN: Gq
+				MN: Gq
+	FunctionCall: play
+		Arguments: None
+			Argument: melody
+		Arguments: None
+			Argument: ts
+		Arguments: None
+			Argument: ks
+		Arguments: None
+			Argument: t
+
