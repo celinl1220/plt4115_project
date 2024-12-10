@@ -1,0 +1,8 @@
+Tempo t = 144
+KeySig ks = cmajor
+Tune melody = [[C4q, Cq, Gq, Gq]]
+Tune tune1 = [[A4q, Aq, Gq, Gq]]
+Tune tune2 = [[B4q, Bq, Gq, Gq]]
+loop 2:
+	add ( melody, tune1 )
+    add ( melody, tune2 )

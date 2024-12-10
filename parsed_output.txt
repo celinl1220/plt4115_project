@@ -1,12 +1,5 @@
+Generated AST:
 Program: None
-	Assignment: None
-		LHS: TimeSig
-			ID: ts
-		FunctionCall: time
-			Arguments: None
-				Argument: 4
-			Arguments: None
-				Argument: 4
 	Assignment: None
 		LHS: Tempo
 			ID: t
@@ -24,13 +17,33 @@ Program: None
 				MN: Cq
 				MN: Gq
 				MN: Gq
-	FunctionCall: play
+	Assignment: None
+		LHS: Tune
+			ID: tune1
+		List: None
+			Bar: None
+				MN: A4q
+				MN: Aq
+				MN: Gq
+				MN: Gq
+	Assignment: None
+		LHS: Tune
+			ID: tune2
+		List: None
+			Bar: None
+				MN: B4q
+				MN: Bq
+				MN: Gq
+				MN: Gq
+	Loop: 2
+		FunctionCall: add
+			Arguments: None
+				Argument: melody
+			Arguments: None
+				Argument: tune1
+	FunctionCall: add
 		Arguments: None
 			Argument: melody
 		Arguments: None
-			Argument: ts
-		Arguments: None
-			Argument: ks
-		Arguments: None
-			Argument: t
+			Argument: tune2
 

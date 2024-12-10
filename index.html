@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tone.js Debug Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/tone"></script>
+</head>
+<body>
+    <h1>Tone.js Debug Example</h1>
+    <button id="start-button">Play Melody</button>
+
+    <script>
+        // Set up the Synth and Transport
+        const synth = new Tone.Synth().toDestination();
+        Tone.Transport.bpm.value = 120; // Set BPM
+        Tone.Transport.timeSignature = [4, 4]; // Set time signature
+
+        // Melody: Define the notes and durations
+        const melody = [
+            { note: "C4", duration: "4n" },
+            { note: "D4", duration: "4n" },
+            { note: "E4", duration: "4n" },
+            { note: "F4", duration: "4n" }
+        ];
+
+        // Function to play the melody
+        async function playMelody() {
+            await Tone.start(); // Start Tone.js Audio Context
+            console.log("Audio context started!");
+
+            let time = 0; // Track time for scheduling notes
+            melody.forEach(({ note, duration }) => {
+                synth.triggerAttackRelease(note, duration, Tone.now() + time);
+                console.log(`Scheduled note: ${note}, duration: ${duration}`);
+                time += Tone.Time(duration).toSeconds(); // Increment time by duration
+            });
+        }
+
+        // Attach event listener to the button
+        document.getElementById("start-button").addEventListener("click", () => {
+            console.log("Play button clicked!");
+            playMelody().catch(err => console.error("Error playing melody:", err));
+        });
+    </script>
+</body>
+</html>
